@@ -1,8 +1,8 @@
-import 'package:condo_app/widgets/MyButton.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/InputTextField.dart';
-import '../widgets/SquareTile.dart';
+import '../widgets/condo_button.dart';
+import '../widgets/input_text.dart';
+import '../widgets/square_tile.dart';
 
 class LoginPage extends StatelessWidget {
   final emailController = TextEditingController();
@@ -88,7 +88,7 @@ class LoginPage extends StatelessWidget {
               // SignIn button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: MyButton(
+                child: CondoButton(
                   text: 'Entrar',
                   onTap: () => Navigator.pushNamed(context, '/homepage'),
                 ),

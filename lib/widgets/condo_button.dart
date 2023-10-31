@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class MyButton extends StatelessWidget {
+class CondoButton extends StatelessWidget {
   final String text;
   final Function()? onTap;
 
-  const MyButton({
+  const CondoButton({
     super.key, 
     required this.text,
     required this.onTap
