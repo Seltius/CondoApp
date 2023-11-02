@@ -1,5 +1,5 @@
 class ApiEndPoints {
-  static const String baseUrl = 'http://localhost:8080/api/v1';
+  static const String baseUrl = 'http://192.168.1.141:8080/api/v1';
   static AuthEndPoints authEndpoints = AuthEndPoints();
 }
 

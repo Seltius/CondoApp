@@ -4,11 +4,17 @@ import '../widgets/condo_button.dart';
 import '../widgets/input_text.dart';
 import '../widgets/square_tile.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<StatefulWidget> createState() => Login();
+
+}
+
+class Login extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
-  LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,9 +94,11 @@ class LoginPage extends StatelessWidget {
               // SignIn button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: CondoButton(
-                  text: 'Entrar',
+                child: GestureDetector(
                   onTap: () => Navigator.pushNamed(context, '/homepage'),
+                  child: const CondoButton(
+                    text: 'Entrar'
+                  ),
                 ),
               ),
 
