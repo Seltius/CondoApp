@@ -14,9 +14,9 @@ class AuthController extends GetxController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   Future<bool> register(BuildContext context) async {
-
     var headers = {'Content-Type': 'application/json'};
     var url = Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.authEndpoints.register);
+
     Map body = {
       'firstName' : firstName.text.trim(),
       'lastName' : lastName.text.trim(),
@@ -24,8 +24,7 @@ class AuthController extends GetxController {
       'password' : password.text.trim()
     };
 
-    http.Response response =
-    await http.post(url, body: jsonEncode(body), headers: headers);
+    http.Response response = await http.post(url, body: jsonEncode(body), headers: headers);
 
     if (response.statusCode == 200) {
       var token = jsonDecode(response.body)['token'];
@@ -45,13 +44,13 @@ class AuthController extends GetxController {
   Future<bool> login(BuildContext context) async {
     var headers = {'Content-Type': 'application/json'};
     var url = Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.authEndpoints.authenticate);
+
     Map body = {
       'email' : email.text.trim(),
       'password' : password.text.trim()
     };
 
-    http.Response response =
-    await http.post(url, body: jsonEncode(body), headers: headers);
+    http.Response response = await http.post(url, body: jsonEncode(body), headers: headers);
 
     if (response.statusCode == 200) {
       var token = jsonDecode(response.body)['token'];

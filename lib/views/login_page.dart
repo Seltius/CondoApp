@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../controllers/auth_controller.dart';
 import '../widgets/condo_button.dart';
 import '../widgets/input_text.dart';
 import '../widgets/square_tile.dart';
@@ -13,8 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class Login extends State<LoginPage> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  AuthController authController = AuthController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class Login extends State<LoginPage> {
 
               //Input E-Mail
               InputTextField(
-                controller: emailController,
+                controller: authController.email,
                 hintText: 'E-Mail',
                 obscureText: false),
 
@@ -66,7 +66,7 @@ class Login extends State<LoginPage> {
 
               //Input Password
               InputTextField(
-                  controller: passwordController,
+                  controller: authController.password,
                   hintText: 'Password',
                   obscureText: true),
 
@@ -92,14 +92,13 @@ class Login extends State<LoginPage> {
               const SizedBox(height: 20),
 
               // SignIn button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, '/homepage'),
-                  child: const CondoButton(
-                    text: 'Entrar'
-                  ),
-                ),
+              CondoButton(
+                  text: 'Entrar',
+                  onPressed: () async {
+                    if(await authController.login(context)) {
+                      Navigator.pushNamed(context, '/homepage');
+                    }
+                  },
               ),
 
               const SizedBox(height: 24),
