@@ -82,20 +82,14 @@ class Register extends State<RegisterPage> {
 
               const SizedBox(height: 20),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: ElevatedButton(
-                    onPressed: () async {
-                      if(await authController.register(context)) {
-                        Navigator.pushNamed(context, '/homepage');
-                      }
-                    },
-                    child: const CondoButton(
-                        text: 'Registar'
-                    )
-                ),
-              )
-
+              CondoButton(
+                text: 'Registar',
+                onPressed: () async {
+                  if(await authController.register(context)) {
+                    Navigator.pushNamed(context, '/homepage');
+                  }
+                },
+              ),
             ],
           ),
         )

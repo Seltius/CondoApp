@@ -37,52 +37,53 @@ class AuthController extends GetxController {
       password.clear();
       return true;
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text('Error: ${response.reasonPhrase}'),
-            backgroundColor: Colors.red
-        )
-      );
+        showErrorDialog(context, jsonDecode(response.body)['errors'].toString());
       return false;
     }
   }
 
-  Future<void> login() async {
+  Future<bool> login(BuildContext context) async {
+    var headers = {'Content-Type': 'application/json'};
+    var url = Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.authEndpoints.authenticate);
+    Map body = {
+      'email' : email.text.trim(),
+      'password' : password.text.trim()
+    };
 
-    try {
-      var headers = {'Content-Type': 'application/json'};
-      var url = Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.authEndpoints.authenticate);
-      Map body = {
-        'email' : email.text.trim(),
-        'password' : password.text.trim()
-      };
+    http.Response response =
+    await http.post(url, body: jsonEncode(body), headers: headers);
 
-      http.Response response =
-      await http.post(url, body: jsonEncode(body), headers: headers);
-
-      if (response.statusCode == 200) {
-        var token = jsonDecode(response.body)['token'];
-        final SharedPreferences prefs = await _prefs;
-        prefs.setString('token', token);
-        email.clear();
-        password.clear();
-        Get.off(const Placeholder());
-      } else {
-        throw jsonDecode(response.body)['Messsage'] ?? 'Erro técnico, tente mais tarde';
-      }
-    } catch (e) {
-      Get.back();
-      showDialog(
-          context: Get.context!,
-          builder: (context) {
-            return SimpleDialog(
-              title: const Text('Error'),
-              contentPadding: const EdgeInsets.all(20),
-              children: [Text(e.toString())],
-            );
-          }
-      );
+    if (response.statusCode == 200) {
+      var token = jsonDecode(response.body)['token'];
+      final SharedPreferences prefs = await _prefs;
+      prefs.setString('token', token);
+      email.clear();
+      password.clear();
+      return true;
+    } else {
+      showErrorDialog(context, jsonDecode(response.body)['error'].toString());
+      return false;
     }
+  }
+
+  void showErrorDialog(BuildContext context, String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Erro'),
+          content: Text(errorMessage),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
 }

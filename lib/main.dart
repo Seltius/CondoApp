@@ -23,16 +23,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: isAuthenticated ? const PlaceHolderPage() : LoginPage(),
+      home: isAuthenticated ? const PlaceHolderPage() : const LoginPage(),
       routes: {
         '/homepage': (context) => const PlaceHolderPage(),
-        '/register': (context) => RegisterPage(),
+        '/register': (context) => const RegisterPage(),
         '/recover': (context) => const RecoverPage(),
         '/documents': (context) => const DocumentsPage(),
         '/settings': (context) => const SettingsPage(),
         '/apple': (context) => const ApplePage(),
         '/google': (context) => const GooglePage(),
-        '/login': (context) => LoginPage(),
+        '/login': (context) => const LoginPage(),
       },
     );
   }
