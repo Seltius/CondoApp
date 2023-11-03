@@ -33,7 +33,12 @@ class AuthTokenUtils {
     );
 
     if (response.statusCode == 200) {
-      return jsonDecode(response.body)['valid'];
+        if (jsonDecode(response.body)['valid']) {
+          return true;
+        } else {
+          await removeToken();
+          return false;
+        }
     } else {
       await removeToken();
       return false;
