@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
   }
 
   //TODO
-  // Validate all input fields
-  // Handle api error's
+  // Handle api error's (such as forbidden and emails already registered)
 
 }
