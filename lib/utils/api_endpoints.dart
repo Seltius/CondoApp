@@ -7,6 +7,7 @@ class AuthEndPoints {
   static const String auth = '/auth';
   final String register = '$auth/register';
   final String unregister = '$auth/unregister';
-  final String authenticate = '$auth/authenticate';
+  final String signIn = '$auth/signin';
+  final String signOut = '$auth/signout';
   final String validate = '$auth/validate';
 }

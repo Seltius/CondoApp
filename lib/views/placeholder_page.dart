@@ -1,3 +1,4 @@
+import 'package:condo_app/utils/auth_token.dart';
 import 'package:condo_app/views/documents_page.dart';
 import 'package:condo_app/views/home_page.dart';
 import 'package:condo_app/views/settings_page.dart';
@@ -13,6 +14,7 @@ class PlaceHolderPage extends StatefulWidget {
 }
 
 class _PlaceHolderPage extends State<PlaceHolderPage>{
+  AuthTokenUtils authTokenUtils = AuthTokenUtils();
 
   int currentIndex = 0;
 

@@ -1,20 +1,24 @@
 import 'package:condo_app/controllers/auth_controller.dart';
+import 'package:condo_app/widgets/text_form_input.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/condo_button.dart';
-import '../widgets/input_text.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => Register();
+  State<StatefulWidget> createState() => _RegisterPageState();
 
 }
 
 
-class Register extends State<RegisterPage> {
+class _RegisterPageState extends State<RegisterPage> {
   AuthController authController = AuthController();
+  final _formKey = GlobalKey<FormState>();
+  final nameRegex = RegExp(r'^[a-zA-Z\u00C0-\u017F]+(-[a-zA-Z\u00C0-\u017F]+)*( [a-zA-Z\u00C0-\u017F]+(-[a-zA-Z\u00C0-\u017F]+)*)*$');
+  final emailRegex = RegExp(r'^[a-zA-Z0-9.a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
+  final pwRegex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$&*~]).{8,}$');
 
   @override
   Widget build(BuildContext context) {
@@ -49,47 +53,92 @@ class Register extends State<RegisterPage> {
                 textAlign: TextAlign.center,
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 32),
 
-              //Input E-Mail
-              InputTextField(
-                  controller: authController.firstName,
-                  hintText: 'Nome',
-                  obscureText: false),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
 
-              const SizedBox(height: 8),
+                    //firstName field
+                    InputFormTextField(
+                      controller: authController.firstName,
+                      hintText: "Nome",
+                      isPassword: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Campo obrigatório";
+                        } else if (!nameRegex.hasMatch(value)) {
+                          return "Nome inválido";
+                        }
+                        return null;
+                      },
+                    ),
 
-              InputTextField(
-                  controller: authController.lastName,
-                  hintText: 'Apelido',
-                  obscureText: false),
+                    const SizedBox(height: 16),
 
-              const SizedBox(height: 8),
+                    InputFormTextField(
+                      controller: authController.lastName,
+                      hintText: "Apelido",
+                      isPassword: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Campo obrigatório";
+                        } else if (!nameRegex.hasMatch(value)) {
+                          return "Apelido inválido";
+                        }
+                        return null;
+                      },
+                    ),
 
-              //Input E-Mail
-              InputTextField(
-                  controller: authController.email,
-                  hintText: 'E-Mail',
-                  obscureText: false),
+                    const SizedBox(height: 16),
 
-              const SizedBox(height: 8),
+                    InputFormTextField(
+                      controller: authController.email,
+                      hintText: "E-Mail",
+                      isPassword: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Campo obrigatório";
+                        } else if (!emailRegex.hasMatch(value)) {
+                          return "E-Mail inválido";
+                        }
+                        return null;
+                      },
+                    ),
 
-              //Input Password
-              InputTextField(
-                  controller: authController.password,
-                  hintText: 'Password',
-                  obscureText: true),
+                    const SizedBox(height: 16),
 
-              const SizedBox(height: 20),
+                    InputFormTextField(
+                      controller: authController.password,
+                      hintText: "Password",
+                      isPassword: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Campo obrigatório";
+                        } else if (!pwRegex.hasMatch(value)) {
+                          return "Password não cumpre os requisitos";
+                        }
+                        return null;
+                      },
+                    ),
 
-              CondoButton(
-                text: 'Registar',
-                onPressed: () async {
-                  if(await authController.register(context)) {
-                    Navigator.pushNamed(context, '/homepage');
-                  }
-                },
-              ),
+                    const SizedBox(height: 32),
+
+                    CondoButton(
+                      text: 'Registar',
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          if(await authController.register(context)) {
+                            Navigator.pushNamed(context, '/homepage');
+                          }
+                        }
+                      },
+                    ),
+                  ],
+                )
+
+              )
             ],
           ),
         )

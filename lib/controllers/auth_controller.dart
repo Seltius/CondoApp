@@ -43,7 +43,7 @@ class AuthController extends GetxController {
 
   Future<bool> login(BuildContext context) async {
     var headers = {'Content-Type': 'application/json'};
-    var url = Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.authEndpoints.authenticate);
+    var url = Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.authEndpoints.signIn);
 
     Map body = {
       'email' : email.text.trim(),
@@ -60,7 +60,7 @@ class AuthController extends GetxController {
       password.clear();
       return true;
     } else {
-      showErrorDialog(context, jsonDecode(response.body)['error'].toString());
+      showErrorDialog(context, jsonDecode(response.body)['errors'].toString());
       return false;
     }
   }
