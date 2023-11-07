@@ -112,7 +112,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     InputFormTextField(
                       controller: authController.password,
                       hintText: "Password",
-                      isPassword: false,
+                      isPassword: true,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Campo obrigatório";
@@ -137,7 +137,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ],
                 )
-
               )
             ],
           ),

@@ -59,6 +59,9 @@ class AuthController extends GetxController {
       email.clear();
       password.clear();
       return true;
+    } else if (response.statusCode == 403) {
+      showErrorDialog(context, "E-Mail ou Password inválidos");
+      return false;
     } else {
       showErrorDialog(context, jsonDecode(response.body)['errors'].toString());
       return false;
