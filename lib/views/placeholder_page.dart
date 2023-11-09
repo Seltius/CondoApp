@@ -1,3 +1,4 @@
+import 'package:condo_app/utils/auth_token.dart';
 import 'package:condo_app/views/documents_page.dart';
 import 'package:condo_app/views/home_page.dart';
 import 'package:condo_app/views/settings_page.dart';
@@ -13,7 +14,6 @@ class PlaceHolderPage extends StatefulWidget {
 }
 
 class _PlaceHolderPage extends State<PlaceHolderPage>{
-
   int currentIndex = 0;
 
   final navItems = const [
@@ -59,7 +59,7 @@ class _PlaceHolderPage extends State<PlaceHolderPage>{
                 leading: Icon(Icons.report),
               ),
               const ListTile(
-                title: Text('Administracao'),
+                title: Text('Administração'),
                 leading: Icon(Icons.admin_panel_settings),
               ),
               Padding(
@@ -67,7 +67,10 @@ class _PlaceHolderPage extends State<PlaceHolderPage>{
                   child: ListTile(
                     title: const Text('Sair'),
                     leading: const Icon(Icons.login),
-                    onTap: () => Navigator.pushNamed(context, '/login')
+                    onTap: () async {
+                      AuthTokenUtils.removeToken();
+                      Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false);
+                    }
                   ),
               )
             ],

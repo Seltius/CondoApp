@@ -1,14 +1,23 @@
-import 'package:condo_app/widgets/MyButton.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/InputTextField.dart';
-import '../widgets/SquareTile.dart';
+import '../controllers/auth_controller.dart';
+import '../widgets/condo_button.dart';
+import '../widgets/square_tile.dart';
+import '../widgets/text_form_input.dart';
 
-class LoginPage extends StatelessWidget {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
-  LoginPage({super.key});
+  @override
+  State<StatefulWidget> createState() => LoginPageState();
+
+}
+
+class LoginPageState extends State<LoginPage> {
+  AuthController authController = AuthController();
+  final _formKey = GlobalKey<FormState>();
+  final emailRegex = RegExp(r'^[a-zA-Z0-9.a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
+  final pwRegex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$&*~]).{8,}$');
 
   @override
   Widget build(BuildContext context) {
@@ -50,48 +59,75 @@ class LoginPage extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              //Input E-Mail
-              InputTextField(
-                controller: emailController,
-                hintText: 'E-Mail',
-                obscureText: false),
+              Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
 
-              const SizedBox(height: 8),
-
-              //Input Password
-              InputTextField(
-                  controller: passwordController,
-                  hintText: 'Password',
-                  obscureText: true),
-
-              //sign-in button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.00),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () => Navigator.pushNamed(context, '/recover'),
-                      child: const Text(
-                          'Recuperar Password',
-                          style: TextStyle(
-                              color: Colors.black
-                          ),
+                      InputFormTextField(
+                        controller: authController.email,
+                        hintText: "E-Mail",
+                        isPassword: false,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Campo obrigatório";
+                          } else if (!emailRegex.hasMatch(value)) {
+                            return "E-Mail inválido";
+                          }
+                          return null;
+                        },
                       ),
-                    ),
-                  ],
-                ),
-              ),
 
-              const SizedBox(height: 20),
+                      const SizedBox(height: 16),
 
-              // SignIn button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: MyButton(
-                  text: 'Entrar',
-                  onTap: () => Navigator.pushNamed(context, '/homepage'),
-                ),
+                      InputFormTextField(
+                        controller: authController.password,
+                        hintText: "Password",
+                        isPassword: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Campo obrigatório";
+                          } else if (!pwRegex.hasMatch(value)) {
+                            return "Password inválida";
+                          }
+                          return null;
+                        },
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25.00),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            GestureDetector(
+                              onTap: () => Navigator.pushNamed(context, '/recover'),
+                              child: const Text(
+                                'Recuperar Password',
+                                style: TextStyle(
+                                    color: Colors.black
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      // SignIn button
+                      CondoButton(
+                        text: 'Entrar',
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            if(await authController.login(context)) {
+                              Navigator.pushNamedAndRemoveUntil(context, '/homepage', (Route<dynamic> route) => false);
+                            }
+                          }
+                        },
+                      ),
+                    ],
+                  )
+
               ),
 
               const SizedBox(height: 24),
