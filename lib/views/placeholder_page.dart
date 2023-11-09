@@ -69,7 +69,7 @@ class _PlaceHolderPage extends State<PlaceHolderPage>{
                     leading: const Icon(Icons.login),
                     onTap: () async {
                       AuthTokenUtils.removeToken();
-                      Navigator.pushNamed(context, '/login');
+                      Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false);
                     }
                   ),
               )

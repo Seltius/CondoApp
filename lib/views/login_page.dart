@@ -120,7 +120,7 @@ class LoginPageState extends State<LoginPage> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             if(await authController.login(context)) {
-                              Navigator.pushNamed(context, '/homepage');
+                              Navigator.pushNamedAndRemoveUntil(context, '/homepage', (Route<dynamic> route) => false);
                             }
                           }
                         },

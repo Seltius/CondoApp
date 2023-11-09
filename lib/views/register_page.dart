@@ -130,7 +130,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           if(await authController.register(context)) {
-                            Navigator.pushNamed(context, '/homepage');
+                            Navigator.pushNamedAndRemoveUntil(context, '/homepage', (Route<dynamic> route) => false);
                           }
                         }
                       },
