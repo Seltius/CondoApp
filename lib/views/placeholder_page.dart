@@ -14,8 +14,6 @@ class PlaceHolderPage extends StatefulWidget {
 }
 
 class _PlaceHolderPage extends State<PlaceHolderPage>{
-  AuthTokenUtils authTokenUtils = AuthTokenUtils();
-
   int currentIndex = 0;
 
   final navItems = const [
@@ -61,7 +59,7 @@ class _PlaceHolderPage extends State<PlaceHolderPage>{
                 leading: Icon(Icons.report),
               ),
               const ListTile(
-                title: Text('Administracao'),
+                title: Text('Administração'),
                 leading: Icon(Icons.admin_panel_settings),
               ),
               Padding(
@@ -69,7 +67,10 @@ class _PlaceHolderPage extends State<PlaceHolderPage>{
                   child: ListTile(
                     title: const Text('Sair'),
                     leading: const Icon(Icons.login),
-                    onTap: () => Navigator.pushNamed(context, '/login')
+                    onTap: () async {
+                      AuthTokenUtils.removeToken();
+                      Navigator.pushNamed(context, '/login');
+                    }
                   ),
               )
             ],
