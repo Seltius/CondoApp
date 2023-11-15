@@ -81,7 +81,7 @@ class _PlaceHolderPage extends State<PlaceHolderPage>{
             child: [ // IMPORTANT - SAME AMOUNT AS CURVED_NAVIGATION_BAR
               const HomePage(),
               const VotePage(),
-              const DocumentsPage(),
+              DocumentsPage(),
               const SettingsPage()
             ][currentIndex],
           )
