@@ -109,6 +109,13 @@ class _DocumentsPageState extends State<DocumentsPage> {
                           Text('Data: ${document['uploadDate']}'),
                         ],
                       ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.document_scanner_outlined),
+                        onPressed: () async {
+                          final file = await documentController.getDocument(document['id']);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewerScreen(document: file)));
+                        },
+                      ),
                     ),
                   ),
                 );
