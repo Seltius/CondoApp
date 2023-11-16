@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         '/homepage': (context) => const PlaceHolderPage(),
         '/register': (context) => const RegisterPage(),
         '/recover': (context) => const RecoverPage(),
-        '/documents': (context) => DocumentsPage(),
+        '/documents': (context) => const DocumentsPage(),
         '/settings': (context) => const SettingsPage(),
         '/apple': (context) => const ApplePage(),
         '/google': (context) => const GooglePage(),

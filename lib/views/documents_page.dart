@@ -1,10 +1,9 @@
+import 'package:condo_app/views/pdf_viewer_page.dart';
 import 'package:flutter/material.dart';
 import '../controllers/document_controller.dart';
 
 class DocumentsPage extends StatefulWidget {
-  DocumentsPage({super.key});
-
-  final DocumentController documentController = DocumentController();
+  const DocumentsPage({super.key});
 
   @override
   State<StatefulWidget> createState() => _DocumentsPageState();
@@ -12,6 +11,7 @@ class DocumentsPage extends StatefulWidget {
 }
 
 class _DocumentsPageState extends State<DocumentsPage> {
+  DocumentController documentController = DocumentController();
   List<Map<String, dynamic>> documents = [];
   String _searchQuery = '';
   String _selectedDocumentTypeFilter = '';
@@ -93,17 +93,23 @@ class _DocumentsPageState extends State<DocumentsPage> {
               itemCount: filteredDocuments.length,
               itemBuilder: (context, index) {
                 final document = filteredDocuments[index];
-                return Card(
-                  child: ListTile(
-                    title: Text(document['name']),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Document ID: ${document['id']}'),
-                        Text('Tipo: ${document['type']}'),
-                        Text('Autor: ${document['uploader']}'),
-                        Text('Data: ${document['uploadDate']}'),
-                      ],
+                return GestureDetector(
+                  onTap: () async {
+                    final file = await documentController.getDocument(document['id']);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewerScreen(document: file)));
+                  },
+                  child: Card(
+                    child: ListTile(
+                      title: Text(document['name']),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Document ID: ${document['id']}'),
+                          Text('Tipo: ${document['type']}'),
+                          Text('Autor: ${document['uploader']}'),
+                          Text('Data: ${document['uploadDate']}'),
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -117,7 +123,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
   Future<void> _loadDocuments() async {
     try {
-      final fetchedDocuments = await widget.documentController.getDocuments();
+      final fetchedDocuments = await documentController.getDocuments();
       setState(() {
         documents = fetchedDocuments;
       });

@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:condo_app/models/document.dart';
 import 'package:condo_app/utils/api_endpoints.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,24 +25,23 @@ class DocumentController extends GetxController {
     }
   }
 
-  void showErrorDialog(BuildContext context, String errorMessage) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Erro'),
-          content: Text(errorMessage),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+  Future<Document> getDocument(int documentId) async {
+    var url = Uri.parse("${ApiEndPoints.baseUrl}${ApiEndPoints.documentEndpoints.documents}/$documentId");
+
+    SharedPreferences prefs = await _prefs;
+    String? token = prefs.getString('token');
+
+    http.Response response = await http.get(url, headers: { 'Authorization': 'Bearer $token' });
+
+    if (response.statusCode == 200) {
+      final body = json.decode(response.body);
+      return Document(
+          id: body['id'],
+          name: body['name'],
+          fileData: body['fileData']);
+    } else {
+      throw Exception('Failed to load specific document');
+    }
   }
 
 }
