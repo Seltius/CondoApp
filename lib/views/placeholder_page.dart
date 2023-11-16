@@ -81,14 +81,14 @@ class _PlaceHolderPage extends State<PlaceHolderPage>{
             child: [ // IMPORTANT - SAME AMOUNT AS CURVED_NAVIGATION_BAR
               const HomePage(),
               const VotePage(),
-              DocumentsPage(),
+              const DocumentsPage(),
               const SettingsPage()
             ][currentIndex],
           )
         ),
         bottomNavigationBar: CurvedNavigationBar(
           index: currentIndex,
-          height: 70,
+          height: 65,
           items: navItems,
           color: Colors.amber,
           buttonBackgroundColor: Colors.amber,
