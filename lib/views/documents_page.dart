@@ -104,8 +104,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Document ID: ${document['id']}'),
-                          Text('Tipo: ${document['type']}'),
+                          Text('Tipo: ${_documentTypeToText(document['type'])}'),
                           Text('Autor: ${document['uploader']}'),
                           Text('Data: ${document['uploadDate']}'),
                         ],
@@ -129,6 +128,19 @@ class _DocumentsPageState extends State<DocumentsPage> {
       });
     } catch (e) {
       // TODO Handle error (show a snackbar, display an error message)
+    }
+  }
+
+  String _documentTypeToText(String type) {
+    switch (type) {
+      case 'MINUTES':
+        return 'Minuta';
+      case 'BUDGET':
+        return 'Orçamento';
+      case 'INVOICE':
+        return 'Fatura';
+      default:
+        return 'Desconhecido';
     }
   }
 
